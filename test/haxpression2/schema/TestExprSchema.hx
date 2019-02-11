@@ -75,11 +75,11 @@ class TestExprSchema {
           args: ([
             {
               expr: { lit: { int: 1 } },
-              annotation: { index: { offset: 1, line: 2, column: 2 } }
+              annotation: { index: 1 }
             },
             {
               expr: { "var": "a" },
-              annotation: { index: { offset: 3, line: 4, column: 4 } }
+              annotation: { index: 3 }
             }
           ] : Array<Dynamic>)
         }
@@ -87,11 +87,11 @@ class TestExprSchema {
       EFunc("myFunc", [
         ae(
           ELit(VInt(1)),
-          meta(1, 2, 2)
+          meta(1)
         ),
         ae(
           EVar("a"),
-          meta(3, 4, 4)
+          meta(3)
         ),
       ])
     );
@@ -101,27 +101,27 @@ class TestExprSchema {
     assertRenderDynamic(
       {
         binOp: {
-          operator: "+",
+          op: "+",
           precedence: 5,
           left: {
             expr: {
               "var": "a"
             },
-            annotation: { index: { offset: 1, line: 2, column: 3 } }
+            annotation: { index: 1 }
           },
           right: {
             expr: {
               "var": "b"
             },
-            annotation: { index: { offset: 4, line: 5, column: 6 } }
+            annotation: { index: 4 }
           }
         }
       },
       EBinOp(
         "+",
         5,
-        ae(EVar("a"), meta(1, 2, 3)),
-        ae(EVar("b"), meta(4, 5, 6))
+        ae(EVar("a"), meta(1)),
+        ae(EVar("b"), meta(4))
       )
     );
   }
@@ -130,20 +130,20 @@ class TestExprSchema {
     assertRenderDynamic(
       {
         unOpPre: {
-          operator: "~",
+          op: "~",
           precedence: 5,
           operand: {
             expr: {
               "var": "a"
             },
-            annotation: { index: { offset: 1, line: 2, column: 3 } }
+            annotation: { index: 1 }
           }
         }
       },
       EUnOpPre(
         "~",
         5,
-        ae(EVar("a"), meta(1, 2, 3))
+        ae(EVar("a"), meta(1))
       )
     );
   }

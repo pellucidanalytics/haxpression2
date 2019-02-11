@@ -1,20 +1,22 @@
 package haxpression2.parse;
 
-import Parsihax;
+import parsihax.*;
+import parsihax.Parser.*;
+using parsihax.Parser;
 
 class ParseMeta {
-  public var index(default, null) : Index;
+  public var index(default, null) : Int;
 
-  public function new(index : Index) {
+  public function new(index : Int) {
     this.index = index;
   }
 
-  public static function create(offset: Int, line: Int, column: Int) : ParseMeta {
-    return new ParseMeta({ offset: offset, line: line, column: column });
+  public static function create(index: Int) : ParseMeta {
+    return new ParseMeta(index);
   }
 
   public function toString() {
-    return 'ParseMeta(${index.offset}, ${index.line}, ${index.column})';
+    return 'ParseMeta(${index})';
   }
 
   public static function renderString(p : ParseMeta) : String {

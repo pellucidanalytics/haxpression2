@@ -106,7 +106,7 @@ class CompileError extends thx.Error {
     this.parseMeta = parseMeta;
   }
   public override function toString() : String {
-    return '$message (position: ${parseMeta.index.offset})';
+    return '$message (position: ${parseMeta.index})';
   }
 }
 
@@ -261,25 +261,25 @@ class ExprCompiler {
   }
 
   public static function compileBinOp(
-    operator : String,
+    op : String,
     precedence : Int,
     left : AnnotatedExpr<Value<Float>, ParseMeta>,
     right : AnnotatedExpr<Value<Float>, ParseMeta>,
     meta: ParseMeta,
     options: ExprCompilerOptions<Value<Float>>
   ) : VNel<CompileError, AnnotatedCompiledExprCapture<ParseMeta>> {
-    return switch operator {
-      case "+" : compileRealBinOp(operator, precedence, left, right, Add, meta, options).map(ace -> CE(DTUReal, ace));
-      case "-" : compileRealBinOp(operator, precedence, left, right, Add, meta, options).map(ace -> CE(DTUReal, ace));
-      case "*" : compileRealBinOp(operator, precedence, left, right, Mul, meta, options).map(ace -> CE(DTUReal, ace));
-      case "/" : compileRealBinOp(operator, precedence, left, right, Div, meta, options).map(ace -> CE(DTUReal, ace));
-      case "%" : compileRealBinOp(operator, precedence, left, right, Mod, meta, options).map(ace -> CE(DTUReal, ace));
-      case unk : failureNel(new CompileError('Unknown binary operator: \"$operator\"', meta));
+    return switch op {
+      case "+" : compileRealBinOp(op, precedence, left, right, Add, meta, options).map(ace -> CE(DTUReal, ace));
+      case "-" : compileRealBinOp(op, precedence, left, right, Add, meta, options).map(ace -> CE(DTUReal, ace));
+      case "*" : compileRealBinOp(op, precedence, left, right, Mul, meta, options).map(ace -> CE(DTUReal, ace));
+      case "/" : compileRealBinOp(op, precedence, left, right, Div, meta, options).map(ace -> CE(DTUReal, ace));
+      case "%" : compileRealBinOp(op, precedence, left, right, Mod, meta, options).map(ace -> CE(DTUReal, ace));
+      case unk : failureNel(new CompileError('Unknown binary operator: \"$op\"', meta));
     }
   }
 
   public static function compileRealBinOp(
-    operator : String,
+    op : String,
     precedence : Int,
     left : AnnotatedExpr<Value<Float>, ParseMeta>,
     right : AnnotatedExpr<Value<Float>, ParseMeta>,
@@ -298,20 +298,20 @@ class ExprCompiler {
   }
 
   public static function compileUnOpPre<V>(
-    operator : String,
+    op : String,
     precedence : Int,
     operand : AnnotatedExpr<Value<Float>, ParseMeta>,
     meta: ParseMeta,
     options: ExprCompilerOptions<Value<Float>>
   ) : VNel<CompileError, AnnotatedCompiledExprCapture<ParseMeta>> {
-    return switch operator {
-      case "-" : compileRealUnOpPre(operator, precedence, operand, Negate, meta, options).map(ace -> CE(DTUReal, ace));
-      case unk : failureNel(new CompileError('Unknown prefix unary operator: \"$operator\"', meta));
+    return switch op {
+      case "-" : compileRealUnOpPre(op, precedence, operand, Negate, meta, options).map(ace -> CE(DTUReal, ace));
+      case unk : failureNel(new CompileError('Unknown prefix unary operator: \"$op\"', meta));
     }
   }
 
   public static function compileRealUnOpPre<V>(
-    operator : String,
+    op : String,
     precedence : Int,
     operand : AnnotatedExpr<Value<Float>, ParseMeta>,
     createUnOpPre : CreateRealUnOpPre,

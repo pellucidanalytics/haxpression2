@@ -20,25 +20,25 @@ class TestAnnotatedExpr {
     assertAnnotatedExprGetVars(new Map(), "1 + 2 + 3 / 4");
 
     assertAnnotatedExprGetVars([
-      "a" => [meta(4, 1, 5)],
-      "b" => [meta(12, 1, 13)]
+      "a" => [meta(4)],
+      "b" => [meta(12)]
     ], "1 + a + 3 / b + NA");
 
     assertAnnotatedExprGetVars([
       "a" => [
-        meta(0, 1, 1),
-        meta(40, 1, 41)
+        meta(0),
+        meta(40)
       ],
       "c" => [
-        meta(4, 1, 5),
-        meta(25, 1, 26),
-        meta(47, 1, 48)
+        meta(4),
+        meta(25),
+        meta(47)
       ],
       "b" => [
-        meta(12, 1, 13),
-        meta(21, 1, 22),
-        meta(29, 1, 30),
-        meta(44, 1, 45),
+        meta(12),
+        meta(21),
+        meta(29),
+        meta(44),
       ]
     ], "a + c + 3 / b + NA + b + c + b * myFunc(a + b, c)");
   }

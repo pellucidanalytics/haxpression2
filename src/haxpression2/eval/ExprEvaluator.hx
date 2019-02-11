@@ -34,16 +34,16 @@ class ExprEvaluator {
               .flatMapV(argValues -> func.eval(argValues).leftMap(errors -> errors.map(error -> { expr: expr, error: options.onError(error, expr) })))
         );
 
-      case EUnOpPre(operator, precendece, operandExpr) :
-        options.unOps.pre.getOption(operator).cataf(
-          () -> failureNel({ expr: expr, error: options.onError('no definition given for unary prefix operator: $operator', expr) }),
+      case EUnOpPre(op, precendece, operandExpr) :
+        options.unOps.pre.getOption(op).cataf(
+          () -> failureNel({ expr: expr, error: options.onError('no definition given for unary prefix operator: $op', expr) }),
           unOp -> eval(operandExpr.expr, options)
             .flatMapV(operandValue -> unOp.eval(operandValue).leftMap(errors -> errors.map(error -> { expr: expr, error: options.onError(error, expr) })))
         );
 
-      case EBinOp(operator, precedence, leftExpr, rightExpr) :
-        options.binOps.getOption(operator).cataf(
-          () -> failureNel({ expr: expr, error: options.onError('no definition was given for binary operator: $operator', expr) }),
+      case EBinOp(op, precedence, leftExpr, rightExpr) :
+        options.binOps.getOption(op).cataf(
+          () -> failureNel({ expr: expr, error: options.onError('no definition was given for binary operator: $op', expr) }),
           binOp -> val2(
             (leftValue, rightValue) -> binOp.eval(leftValue, rightValue).leftMap(errors -> errors.map(error -> { expr: expr, error: options.onError(error, expr) })),
             eval(leftExpr.expr, options),

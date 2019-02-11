@@ -2,7 +2,9 @@ package haxpression2.parse;
 
 import utest.Assert;
 
-using Parsihax;
+import parsihax.*;
+import parsihax.Parser.*;
+using parsihax.Parser;
 
 import thx.Eithers;
 

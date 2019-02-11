@@ -59,8 +59,8 @@ class TestExprEvaluator {
     switch SimpleAnnotatedExprEvaluator.evalString("d", TestHelper.getTestExprParserOptions({ annotate: ParseMeta.new }), TestHelper.getTestExprEvaluatorOptions()) {
       case EvalErrors(Single(exprError)) :
         Assert.same("no variable definition was given for name: d", exprError.error.message);
-        Assert.same(ae(EVar("d"), meta(0, 1, 1)), exprError.error.expr);
-        Assert.same(ae(EVar("d"), meta(0, 1, 1)), exprError.expr);
+        Assert.same(ae(EVar("d"), meta(0)), exprError.error.expr);
+        Assert.same(ae(EVar("d"), meta(0)), exprError.expr);
       case bad : Assert.fail('unexpected evalString result: $bad');
     };
 
@@ -69,12 +69,12 @@ class TestExprEvaluator {
         var errorArray = errors.toArray().reverse();
 
         Assert.same("no variable definition was given for name: d", errorArray[0].error.message);
-        Assert.same(ae(EVar("d"), meta(4, 1, 5)), errorArray[0].error.expr);
-        Assert.same(ae(EVar("d"), meta(4, 1, 5)), errorArray[0].expr);
+        Assert.same(ae(EVar("d"), meta(4)), errorArray[0].error.expr);
+        Assert.same(ae(EVar("d"), meta(4)), errorArray[0].expr);
 
         Assert.same("no variable definition was given for name: e", errorArray[1].error.message);
-        Assert.same(ae(EVar("e"), meta(8, 1, 9)), errorArray[1].error.expr);
-        Assert.same(ae(EVar("e"), meta(8, 1, 9)), errorArray[1].expr);
+        Assert.same(ae(EVar("e"), meta(8)), errorArray[1].error.expr);
+        Assert.same(ae(EVar("e"), meta(8)), errorArray[1].expr);
 
       case bad : Assert.fail('unexpected evalString result: $bad');
     };
@@ -82,21 +82,21 @@ class TestExprEvaluator {
     switch SimpleAnnotatedExprEvaluator.evalString("true + 1", TestHelper.getTestExprParserOptions({ annotate: ParseMeta.new }), TestHelper.getTestExprEvaluatorOptions()) {
       case EvalErrors(Single(exprError)) :
         Assert.same('cannot combine values of incompatible types: `VBool(true)` and `VInt(1)`', exprError.error.message);
-        Assert.same(meta(5, 1, 6), exprError.error.expr.annotation);
+        Assert.same(meta(5), exprError.error.expr.annotation);
       case bad : Assert.fail('unexpected evalString result: $bad');
     };
 
     switch SimpleAnnotatedExprEvaluator.evalString("true + 1 + 'hi'", TestHelper.getTestExprParserOptions({ annotate: ParseMeta.new }), TestHelper.getTestExprEvaluatorOptions()) {
       case EvalErrors(Single(exprError)) :
         Assert.same('cannot combine values of incompatible types: `VBool(true)` and `VInt(1)`', exprError.error.message);
-        Assert.same(meta(5, 1, 6), exprError.error.expr.annotation);
+        Assert.same(meta(5), exprError.error.expr.annotation);
       case bad : Assert.fail('unexpected evalString result: $bad');
     };
 
     switch SimpleAnnotatedExprEvaluator.evalString("true || false + 'hi'", TestHelper.getTestExprParserOptions({ annotate: ParseMeta.new }), TestHelper.getTestExprEvaluatorOptions()) {
       case EvalErrors(Single(exprError)) :
         Assert.same('cannot combine values of incompatible types: `VBool(false)` and `VStr(hi)`', exprError.error.message);
-        Assert.same(meta(14, 1, 15), exprError.error.expr.annotation);
+        Assert.same(meta(14), exprError.error.expr.annotation);
       case bad : Assert.fail('unexpected evalString result: $bad');
     };
   }

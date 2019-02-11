@@ -28,26 +28,26 @@ class TestExprCompiler {
                 Add(
                   new AnnotatedCompiledExpr(
                     CELit(DTUReal, Val(1.0)),
-                    meta(0, 1, 1)
+                    meta(0)
                   ),
                   new AnnotatedCompiledExpr(
                     CEFunc(
                       CAGR(
                         new AnnotatedCompiledExpr(
                           CEVar(DTUReal, "asn!SALES"),
-                          meta(9, 1, 10)
+                          meta(9)
                         ),
                         new AnnotatedCompiledExpr(
                           CELit(DTSpan, Span(5, Year)),
-                          meta(20, 1, 21)
+                          meta(20)
                         )
                       )
                     ),
-                    meta(4, 1, 5)
+                    meta(4)
                   )
                 )
               ),
-              meta(2, 1, 3)
+              meta(2)
             )
           ),
           acec
@@ -73,19 +73,19 @@ class TestExprCompiler {
                 Coalesce([
                   new AnnotatedCompiledExpr(
                     CELit(DTUReal, NA),
-                    meta(9, 1, 10)
+                    meta(9)
                   ),
                   new AnnotatedCompiledExpr(
                     CELit(DTUReal, Val(2.0)),
-                    meta(13, 1, 14)
+                    meta(13)
                   ),
                   new AnnotatedCompiledExpr(
                     CELit(DTUReal, NM),
-                    meta(18, 1, 19)
+                    meta(18)
                   )
                 ])
               ),
-              meta(0, 1, 1)
+              meta(0)
             )
           ),
           acec

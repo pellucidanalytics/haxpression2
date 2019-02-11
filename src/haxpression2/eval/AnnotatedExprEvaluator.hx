@@ -23,8 +23,8 @@ class AnnotatedExprEvaluator {
       case EVar(n) if (n == name) : sub.voidAnnotation();
       case EVar(_) : target.voidAnnotation();
       case EFunc(name, args) : ae(EFunc(name, args.map(arg -> substitute(arg, name, sub))), unit);
-      case EBinOp(operator, precedence, left, right) : ae(EBinOp(operator, precedence, substitute(left, name, sub), substitute(right, name, sub)), unit);
-      case EUnOpPre(operator, precedence, operand) : ae(EUnOpPre(operator, precedence, substitute(operand, name, sub)), unit);
+      case EBinOp(op, precedence, left, right) : ae(EBinOp(op, precedence, substitute(left, name, sub), substitute(right, name, sub)), unit);
+      case EUnOpPre(op, precedence, operand) : ae(EUnOpPre(op, precedence, substitute(operand, name, sub)), unit);
     };
   }
 
@@ -62,16 +62,16 @@ class AnnotatedExprEvaluator {
               .flatMapV(argValues -> func.eval(argValues).leftMap(errors -> errors.map(error -> { expr: ae, error: options.onError(error, ae) })))
         );
 
-      case EUnOpPre(operator, precedence, operandExpr) :
-        options.unOps.pre.getOption(operator).cataf(
-          () -> failureNel({ expr: ae, error: options.onError('no prefix unary operator definition was given for operator: $operator', ae) }),
+      case EUnOpPre(op, precedence, operandExpr) :
+        options.unOps.pre.getOption(op).cataf(
+          () -> failureNel({ expr: ae, error: options.onError('no prefix unary operator definition was given for operator: $op', ae) }),
           preOp -> eval(operandExpr, options)
             .flatMapV(operandValue -> preOp.eval(operandValue).leftMap(errors -> errors.map(error -> { expr: ae, error: options.onError(error, ae) })))
         );
 
-      case EBinOp(operator, precedence, leftExpr, rightExpr) :
-        options.binOps.getOption(operator).cataf(
-          () -> failureNel({ expr: ae, error: options.onError('no binary operator definition was given for operator: $operator', ae) }),
+      case EBinOp(op, precedence, leftExpr, rightExpr) :
+        options.binOps.getOption(op).cataf(
+          () -> failureNel({ expr: ae, error: options.onError('no binary operator definition was given for operator: $op', ae) }),
           binOp -> val2(
             (leftValue, rightValue) -> binOp.eval(leftValue, rightValue).leftMap(errors -> errors.map(error -> { expr: ae, error: options.onError(error, ae) })),
             eval(leftExpr, options),

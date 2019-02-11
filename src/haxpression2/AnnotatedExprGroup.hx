@@ -108,7 +108,7 @@ abstract AnnotatedExprGroup<V, A>(AnnotatedExprGroupImpl<V, A>) from AnnotatedEx
   }
 
   public static function getVar<V, A>(group : AnnotatedExprGroup<V, A>, name : String) : Option<AnnotatedExpr<V, A>> {
-    return group.getOption(name);
+    return thx.Maps.getOption(group, name);
   }
 
   public static function setVar<V, A>(group : AnnotatedExprGroup<V, A>, name : String, ae : AnnotatedExpr<V, A>) : AnnotatedExprGroup<V, A> {

@@ -47,29 +47,29 @@ class ExprSchema {
       alt(
         "binOp",
         object(ap4(
-          (operator : String, precedence: Int, left : AnnotatedExpr<V, A>, right : AnnotatedExpr<V, A>) -> { operator: operator, precedence: precedence, left: left, right: right },
-          required("operator", string(), (obj : { operator: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> obj.operator),
-          required("precedence", int(), (obj : { operator: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> obj.precedence),
-          required("left", annotatedExprSchema, (obj : { operator: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> obj.left),
-          required("right", annotatedExprSchema, (obj : { operator: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> obj.right)
+          (op : String, precedence: Int, left : AnnotatedExpr<V, A>, right : AnnotatedExpr<V, A>) -> { op: op, precedence: precedence, left: left, right: right },
+          required("op", string(), (obj : { op: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> obj.op),
+          required("precedence", int(), (obj : { op: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> obj.precedence),
+          required("left", annotatedExprSchema, (obj : { op: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> obj.left),
+          required("right", annotatedExprSchema, (obj : { op: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> obj.right)
         )),
-        (obj : { operator: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> EBinOp(obj.operator, obj.precedence, obj.left, obj.right),
+        (obj : { op: String, precedence: Int, left: AnnotatedExpr<V, A>, right: AnnotatedExpr<V, A> }) -> EBinOp(obj.op, obj.precedence, obj.left, obj.right),
         (expr : Expr<V, A>) -> switch expr {
-          case EBinOp(op, prec, left, right) : Some({ operator: op, precedence: prec, left: left, right: right });
+          case EBinOp(op, prec, left, right) : Some({ op: op, precedence: prec, left: left, right: right });
           case _ : None;
         }
       ),
       alt(
         "unOpPre",
         object(ap3(
-          (operator : String, precedence : Int, operand : AnnotatedExpr<V, A>) -> { operator: operator, precedence: precedence, operand: operand },
-          required("operator", string(), (obj : { operator: String, precedence: Int, operand: AnnotatedExpr<V, A> }) -> obj.operator),
-          required("precedence", int(), (obj : { operator: String, precedence: Int, operand: AnnotatedExpr<V, A> }) -> obj.precedence),
-          required("operand", annotatedExprSchema, (obj : { operator: String, precedence: Int, operand: AnnotatedExpr<V, A> }) -> obj.operand)
+          (op : String, precedence : Int, operand : AnnotatedExpr<V, A>) -> { op: op, precedence: precedence, operand: operand },
+          required("op", string(), (obj : { op: String, precedence: Int, operand: AnnotatedExpr<V, A> }) -> obj.op),
+          required("precedence", int(), (obj : { op: String, precedence: Int, operand: AnnotatedExpr<V, A> }) -> obj.precedence),
+          required("operand", annotatedExprSchema, (obj : { op: String, precedence: Int, operand: AnnotatedExpr<V, A> }) -> obj.operand)
         )),
-        (obj : { operator: String, precedence: Int, operand: AnnotatedExpr<V, A> }) -> EUnOpPre(obj.operator, obj.precedence, obj.operand),
+        (obj : { op: String, precedence: Int, operand: AnnotatedExpr<V, A> }) -> EUnOpPre(obj.op, obj.precedence, obj.operand),
         (expr : Expr<V, A>) -> switch expr {
-          case EUnOpPre(op, prec, opnd) : Some({ operator: op, precedence: prec, operand: opnd });
+          case EUnOpPre(op, prec, opnd) : Some({ op: op, precedence: prec, operand: opnd });
           case _ : None;
         }
       )

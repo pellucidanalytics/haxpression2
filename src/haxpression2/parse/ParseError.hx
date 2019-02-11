@@ -7,18 +7,20 @@ import haxe.ds.Option;
 import thx.Error;
 using thx.Options;
 
-import Parsihax;
+import parsihax.*;
+import parsihax.Parser.*;
+using parsihax.Parser;
 
 class ParseError<T> extends Error {
   public var input(default, null) : String;
-  public var result(default, null) : Result<T>;
+  public var result(default, null) : ParseResult<T>;
   public var details(default, null) : String;
   public var fieldInfo(default, null) : Option<String>;
 
   function new(
     message : String,
     input : String,
-    result: Result<T>,
+    result: ParseResult<T>,
     details: String,
     fieldInfo : Option<String>,
     ?stack: Array<StackItem>,
@@ -35,9 +37,9 @@ class ParseError<T> extends Error {
     return new ParseError(error.message, error.input, error.result, error.details, Some(fieldInfo));
   }
 
-  public static function fromParseResult<T>(input : String, result : Result<T>) : ParseError<T> {
+  public static function fromParseResult<T>(input : String, result : ParseResult<T>) : ParseError<T> {
     var message = 'Failed to parse expression "$input" (furthest position reached: ${result.furthest})';
-    var details = Parsihax.formatError(result, input);
+    var details = ParseUtil.formatError(result, input);
     return new ParseError(
       message,
       input,

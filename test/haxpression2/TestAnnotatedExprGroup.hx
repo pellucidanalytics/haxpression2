@@ -40,73 +40,73 @@ class TestAnnotatedExprGroup {
           6,
           ae(
             EVar("b"),
-            meta(0, 1, 1)
+            meta(0)
           ),
           ae(
             EVar("c"),
-            meta(4, 1, 5)
+            meta(4)
           )
         ),
-        meta(2, 1, 3)
+        meta(2)
       ),
       "a$1" => ae(
         ELit(VInt(123)),
-        meta(0, 1, 1)
+        meta(0)
       ),
       "a" => ae(
         EFunc("COALESCE", [
           ae(
             EVar("a$0"),
-            meta(9, 1, 10)
+            meta(9)
           ),
           ae(
             EVar("a$1"),
-            meta(14, 1, 15)
+            meta(14)
           )
         ]),
-        meta(0, 1, 1)
+        meta(0)
       ),
       "b$0" => ae(
         EVar("d"),
-        meta(0, 1, 1)
+        meta(0)
       ),
       "b$1" => ae(
         EVar("e"),
-        meta(0, 1, 1)
+        meta(0)
       ),
       "b" => ae(
         EFunc("COALESCE", [
           ae(
             EVar("b$0"),
-            meta(9, 1, 10)
+            meta(9)
           ),
           ae(
             EVar("b$1"),
-            meta(14, 1, 15)
+            meta(14)
           )
         ]),
-        meta(0, 1, 1)
+        meta(0)
       ),
       "c$0" => ae(
         ELit(VNA),
-        meta(0, 1, 1)
+        meta(0)
       ),
       "c$1" => ae(
         ELit(VInt(123)),
-        meta(0, 1, 1)
+        meta(0)
       ),
       "c" => ae(
         EFunc("COALESCE", [
           ae(
             EVar("c$0"),
-            meta(9, 1, 10)
+            meta(9)
           ),
           ae(
             EVar("c$1"),
-            meta(14, 1, 15)
+            meta(14)
           )
         ]),
-        meta(0, 1, 1)
+        meta(0)
       )
     ]);
     switch AnnotatedExprGroup.parseFallbackStringsMap(map, "COALESCE", (key, index) -> '$key$$$index', TestHelper.getTestExprParserOptions({ annotate: ParseMeta.new })) {

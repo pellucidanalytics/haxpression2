@@ -10,9 +10,9 @@ enum Expr<V, A> {
   ELit(value : V);
   EVar(name : String);
   EFunc(func : String, argExprs : Array<AnnotatedExpr<V, A>>);
-  EUnOpPre(operator : String, precedence: Int, operandExpr : AnnotatedExpr<V, A>);
-  //EUnOpPost(operator : String, expr : AnnotatedExpr<V, A>);
-  EBinOp(operator : String, precedence: Int, leftExpr : AnnotatedExpr<V, A>, rightExpr : AnnotatedExpr<V, A>);
+  EUnOpPre(op : String, precedence: Int, operandExpr : AnnotatedExpr<V, A>);
+  //EUnOpPost(op : String, expr : AnnotatedExpr<V, A>);
+  EBinOp(op : String, precedence: Int, leftExpr : AnnotatedExpr<V, A>, rightExpr : AnnotatedExpr<V, A>);
 }
 
 /**
@@ -51,8 +51,8 @@ class Exprs {
       case ELit(v) : ELit(f(v));
       case EVar(name) : EVar(name);
       case EFunc(name, args) : EFunc(name, args.map(arg -> AnnotatedExpr.mapLit(arg, f)));
-      case EUnOpPre(operator, precedence, operandExpr) : EUnOpPre(operator, precedence, AnnotatedExpr.mapLit(operandExpr, f));
-      case EBinOp(operator, precedence, leftExpr, rightExpr) : EBinOp(operator, precedence, AnnotatedExpr.mapLit(leftExpr, f), AnnotatedExpr.mapLit(rightExpr, f));
+      case EUnOpPre(op, precedence, operandExpr) : EUnOpPre(op, precedence, AnnotatedExpr.mapLit(operandExpr, f));
+      case EBinOp(op, precedence, leftExpr, rightExpr) : EBinOp(op, precedence, AnnotatedExpr.mapLit(leftExpr, f), AnnotatedExpr.mapLit(rightExpr, f));
     }
   }
 
@@ -61,8 +61,8 @@ class Exprs {
       case ELit(value) : ELit(value);
       case EVar(name) : EVar(name);
       case EFunc(name, argExprs) : EFunc(name, argExprs.map(argExpr -> AnnotatedExpr.mapAnnotation(argExpr, f)));
-      case EUnOpPre(operator, precedence, operandExpr) : EUnOpPre(operator, precedence, AnnotatedExpr.mapAnnotation(operandExpr, f));
-      case EBinOp(operator, precedence, leftExpr, rightExpr) : EBinOp(operator, precedence, AnnotatedExpr.mapAnnotation(leftExpr, f), AnnotatedExpr.mapAnnotation(rightExpr, f));
+      case EUnOpPre(op, precedence, operandExpr) : EUnOpPre(op, precedence, AnnotatedExpr.mapAnnotation(operandExpr, f));
+      case EBinOp(op, precedence, leftExpr, rightExpr) : EBinOp(op, precedence, AnnotatedExpr.mapAnnotation(leftExpr, f), AnnotatedExpr.mapAnnotation(rightExpr, f));
     };
   }
 

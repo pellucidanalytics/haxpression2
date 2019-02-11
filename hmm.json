@@ -22,25 +22,25 @@
     {
       "name": "parsihax",
       "type": "git",
-      "ref": "v0.2.2",
-      "url": "git@github.com:deathbeam/parsihax"
+      "ref": "c14daa1",
+      "url": "git@github.com:pellucidanalytics/parsihax"
     },
     {
       "name": "thx.core",
       "type": "git",
-      "ref": "f319d99",
+      "ref": "72e8663",
       "url": "git@github.com:fponticelli/thx.core"
     },
     {
       "name": "thx.schema",
       "type": "git",
-      "ref": "0d48d93",
-      "url": "git@github.com:nuttycom/thx.schema"
+      "ref": "6fc5124",
+      "url": "git@github.com:pellucidanalytics/thx.schema"
     },
     {
       "name": "utest",
       "type": "git",
-      "ref": "b3c4c8d",
+      "ref": "0ee9c1a",
       "url": "git@github.com:fponticelli/utest"
     }
   ]

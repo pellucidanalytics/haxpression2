@@ -1,6 +1,8 @@
 package haxpression2.simple;
 
-import Parsihax;
+import parsihax.*;
+import parsihax.Parser.*;
+using parsihax.Parser;
 
 using thx.Arrays;
 import thx.Validation;
@@ -112,7 +114,7 @@ class SimpleAnnotatedExprGroupRenderer {
 }
 
 class SimpleExprs {
-  public static function getStandardExprParserOptions<A>(options: { annotate : Index -> A }) : SimpleExprParserOptions<A> {
+  public static function getStandardExprParserOptions<A>(options: { annotate : Int -> A }) : SimpleExprParserOptions<A> {
     return {
       variableNameRegexp: ~/[a-z_][a-z0-9_]*(?:!?[a-z0-9_]+)?(?:\$[0-9]+)?/i,
       functionNameRegexp: ~/[a-z_][a-z0-9_]*/i,

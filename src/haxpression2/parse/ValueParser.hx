@@ -2,8 +2,9 @@ package haxpression2.parse;
 
 import thx.Either;
 
-import Parsihax.*;
-using Parsihax;
+import parsihax.*;
+import parsihax.Parser.*;
+using parsihax.Parser;
 
 import haxpression2.Value;
 import haxpression2.parse.CoreParser as C;
@@ -16,14 +17,14 @@ typedef ValueParserOptions<N> = {
 typedef ValueParserResult<N> = Either<ParseError<Value<N>>, Value<N>>;
 
 typedef ValueParsers<N> = {
-  value: Parser<Value<N>>,
+  value: ParseObject<Value<N>>,
   _internal: {
-    valueNA: Parser<Value<N>>,
-    valueNM: Parser<Value<N>>,
-    valueNum: Parser<Value<N>>,
-    valueInt: Parser<Value<N>>,
-    valueStr: Parser<Value<N>>,
-    valueBool: Parser<Value<N>>,
+    valueNA: ParseObject<Value<N>>,
+    valueNM: ParseObject<Value<N>>,
+    valueNum: ParseObject<Value<N>>,
+    valueInt: ParseObject<Value<N>>,
+    valueStr: ParseObject<Value<N>>,
+    valueBool: ParseObject<Value<N>>,
   }
 };
 
@@ -35,7 +36,7 @@ class ValueParser {
     var valueInt = C.integer.map(VInt);
     var valueStr = C.string.map(VStr);
     var valueBool = C.bool.map(VBool);
-    var value = choice([valueNA, valueNM, valueNum, valueInt, valueStr, valueBool]);
+    var value = alt([valueNA, valueNM, valueNum, valueInt, valueStr, valueBool]);
     return {
       value: value,
       _internal: {

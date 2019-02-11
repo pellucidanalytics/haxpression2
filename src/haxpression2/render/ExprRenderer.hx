@@ -38,13 +38,13 @@ class ExprRenderer {
             .concat(argTokens)
             .concat([options.funcRightParen]);
 
-        case EUnOpPre(operator, precedence, operandExpr) :
+        case EUnOpPre(op, precedence, operandExpr) :
           var operandTokens : Array<Token> = tokenize(operandExpr.expr, options);
           acc
-            .concat([options.unOpPre(operator)])
+            .concat([options.unOpPre(op)])
             .concat(operandTokens);
 
-        case EBinOp(operator, precedence, leftExpr, rightExpr) :
+        case EBinOp(op, precedence, leftExpr, rightExpr) :
           var leftTokens = tokenize(leftExpr.expr, options);
           var leftTokensSafe = switch leftExpr.expr {
             case EBinOp(_, lprecedence, _, _) if (lprecedence < precedence) :
@@ -64,7 +64,7 @@ class ExprRenderer {
           acc
             .concat(leftTokensSafe)
             .concat([options.space])
-            .concat([options.binOp(operator)])
+            .concat([options.binOp(op)])
             .concat([options.space])
             .concat(rightTokensSafe);
       };

@@ -32,29 +32,29 @@ class TestAnnotatedExprSchema {
           args: ([
             {
               expr: { lit: { int: 1 } },
-              annotation: { index: { offset: 1, line: 2, column: 2 } }
+              annotation: { index: 1 }
             },
             {
               expr: { "var": "a" },
-              annotation: { index: { offset: 3, line: 4, column: 4 } }
+              annotation: { index: 3 }
             }
           ] : Array<Dynamic>)
         }
       },
-      annotation: { index: { offset: 0, line: 1, column: 1 } }
+      annotation: { index: 0 }
     },
     ae(
       EFunc("myFunc", [
         ae(
           ELit(VInt(1)),
-          meta(1, 2, 2)
+          meta(1)
         ),
         ae(
           EVar("a"),
-          meta(3, 4, 4)
+          meta(3)
         ),
       ]),
-      meta(0, 1, 1)
+      meta(0)
     ));
   }
 }

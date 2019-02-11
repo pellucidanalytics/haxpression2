@@ -8,8 +8,9 @@ import thx.Validation.*;
 import thx.schema.SimpleSchema;
 import thx.schema.SimpleSchema.*;
 
-import Parsihax;
-import Parsihax.Index;
+import parsihax.*;
+import parsihax.Parser.*;
+using parsihax.Parser;
 
 using haxpression2.AnnotatedExpr;
 using haxpression2.AnnotatedExprGroup;
@@ -27,7 +28,7 @@ import haxpression2.simple.SimpleExpr;
 import haxpression2.simple.SimpleValue;
 
 class TestHelper {
-  public static function getTestExprParserOptions<A>(options: { annotate : Index -> A }) : SimpleExprParserOptions<A> {
+  public static function getTestExprParserOptions<A>(options: { annotate : Int -> A }) : SimpleExprParserOptions<A> {
     return SimpleExprs.getStandardExprParserOptions(options);
   }
 
@@ -48,7 +49,7 @@ class TestHelper {
     };
   }
 
-  public static function getTestExprParser<A>(options: { annotate : Index -> A }) : Parser<SimpleAnnotatedExpr<A>> {
+  public static function getTestExprParser<A>(options: { annotate : Int -> A }) : ParseObject<SimpleAnnotatedExpr<A>> {
     return ExprParser.create(getTestExprParserOptions(options)).expr;
   }
 

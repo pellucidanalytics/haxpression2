@@ -2,35 +2,34 @@ package haxpression2.parse;
 
 using thx.Strings;
 
-import Parsihax.*;
-using Parsihax;
-import Parsihax.Parser;
-//import parsihax.ParseResult;
+import parsihax.*;
+import parsihax.Parser.*;
+using parsihax.Parser;
 
 class CoreParser {
   // Whitespace
-  public static var ws(default, never) : Parser<String> = whitespace();
-  public static var ows(default, never) : Parser<String> = optWhitespace();
+  public static var ws(default, never) : ParseObject<String> = whitespace();
+  public static var ows(default, never) : ParseObject<String> = optWhitespace();
 
   // Constants
-  public static var na(default, never) : Parser<String> = ~/na/i.regexp();
-  public static var nm(default, never) : Parser<String> = ~/nm/i.regexp();
+  public static var na(default, never) : ParseObject<String> = ~/na/i.regexp();
+  public static var nm(default, never) : ParseObject<String> = ~/nm/i.regexp();
 
   // Integers
-  static var integerZero(default, never) : Parser<Int> = "0".string().map(Std.parseInt);
-  static var integerNonZero(default, never) : Parser<Int> = ~/[1-9][0-9]*/.regexp().map(Std.parseInt);
-  static var integerNonZeroNeg(default, never) : Parser<Int> = ~/\-[1-9][0-9]*/.regexp().map(Std.parseInt);
-  public static var integer(default, never) : Parser<Int> = choice([integerZero, integerNonZero, integerNonZeroNeg]);
-  //public static var integer(default, never) : Parser<Int> = choice([integerZero, integerNonZero]);
+  static var integerZero(default, never) : ParseObject<Int> = "0".string().map(Std.parseInt);
+  static var integerNonZero(default, never) : ParseObject<Int> = ~/[1-9][0-9]*/.regexp().map(Std.parseInt);
+  static var integerNonZeroNeg(default, never) : ParseObject<Int> = ~/\-[1-9][0-9]*/.regexp().map(Std.parseInt);
+  public static var integer(default, never) : ParseObject<Int> = alt([integerZero, integerNonZero, integerNonZeroNeg]);
+  //public static var integer(default, never) : ParseObject<Int> = alt([integerZero, integerNonZero]);
 
   // Decimals (parsed in string format, so the Expr type can parse into the appropriate Float/Decimal type)
-  static var unsignedDecimalWithLeadingDigits(default, never) : Parser<String> = ~/\d[\d,]*(?:\.\d+)(?:e-?\d+)?/.regexp().map(v -> v.replace(",", ""));
-  static var unsignedDecimalWithoutLeadingDigits(default, never) : Parser<String> = ~/\.\d+(?:e-?\d+)/.regexp();
-  static var unsignedDecimal(default, never) : Parser<String> = choice([unsignedDecimalWithLeadingDigits, unsignedDecimalWithoutLeadingDigits]);
-  static var positiveDecimal(default, never) : Parser<String> = ~/\+?/.regexp().then(ows).then(unsignedDecimal);
-  static var negativeSignDecimal(default, never) : Parser<String> = "-".string().then(ows).then(unsignedDecimal);
+  static var unsignedDecimalWithLeadingDigits(default, never) : ParseObject<String> = ~/\d[\d,]*(?:\.\d+)(?:e-?\d+)?/.regexp().map(v -> v.replace(",", ""));
+  static var unsignedDecimalWithoutLeadingDigits(default, never) : ParseObject<String> = ~/\.\d+(?:e-?\d+)/.regexp();
+  static var unsignedDecimal(default, never) : ParseObject<String> = alt([unsignedDecimalWithLeadingDigits, unsignedDecimalWithoutLeadingDigits]);
+  static var positiveDecimal(default, never) : ParseObject<String> = ~/\+?/.regexp().then(ows).then(unsignedDecimal);
+  static var negativeSignDecimal(default, never) : ParseObject<String> = "-".string().then(ows).then(unsignedDecimal);
   /*
-  static var negativeParenDecimal(default, never) : Parser<String> =
+  static var negativeParenDecimal(default, never) : ParseObject<String> =
     "(".string()
       .then(ows)
       .then(unsignedDecimal)
@@ -38,16 +37,16 @@ class CoreParser {
       .skip(")".string())
       .map(str -> '-${str.trim().trimCharsLeft("(").trimCharsRight(")")}');
       */
-  static var negativeDecimal(default, never) : Parser<String> = choice([negativeSignDecimal/*, negativeParenDecimal*/]);
-  public static var decimalString(default, never) : Parser<String> = choice([negativeDecimal, positiveDecimal]);
+  static var negativeDecimal(default, never) : ParseObject<String> = alt([negativeSignDecimal/*, negativeParenDecimal*/]);
+  public static var decimalString(default, never) : ParseObject<String> = alt([negativeDecimal, positiveDecimal]);
 
   // Bools
-  static var boolTrue(default, never) : Parser<Bool> = ~/true/i.regexp().map(v -> true);
-  static var boolFalse(default, never) : Parser<Bool> = ~/false/i.regexp().map(v -> false);
-  public static var bool(default, never) : Parser<Bool> = choice([boolTrue, boolFalse]);
+  static var boolTrue(default, never) : ParseObject<Bool> = ~/true/i.regexp().map(v -> true);
+  static var boolFalse(default, never) : ParseObject<Bool> = ~/false/i.regexp().map(v -> false);
+  public static var bool(default, never) : ParseObject<Bool> = alt([boolTrue, boolFalse]);
 
   // Strings
-  static var stringDoubleQuote(default, never) : Parser<String> = ~/"[^"]*"/.regexp().map(str -> str.trimChars('"'));
-  static var stringSingleQuote(default, never) : Parser<String> = ~/'[^']*'/.regexp().map(str -> str.trimChars("'"));
-  public static var string(default, never) : Parser<String> = choice([stringDoubleQuote, stringSingleQuote]);
+  static var stringDoubleQuote(default, never) : ParseObject<String> = ~/"[^"]*"/.regexp().map(str -> str.trimChars('"'));
+  static var stringSingleQuote(default, never) : ParseObject<String> = ~/'[^']*'/.regexp().map(str -> str.trimChars("'"));
+  public static var string(default, never) : ParseObject<String> = alt([stringDoubleQuote, stringSingleQuote]);
 }
